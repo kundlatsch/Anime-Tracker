@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FiPlus } from 'react-icons/fi';
+import NewAnimeModal from './components/NewAnimeModal';
 
 import './styles.css';
 import animeMockData from './animeMockData.json';
@@ -8,7 +9,22 @@ function UserHome() {
 
   const [username, setUsername] = useState("");
   const [weekDay, setWeekday] = useState("");
-  const [weekAnime, setWeekAnime] = useState([]);
+  const [dayAnime, setDayAnime] = useState([]);
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  const handleClickDialogOpen = () => {
+    setDialogOpen(true);
+  };
+
+  const handleDialogClose = () => {
+    setDialogOpen(false);
+  };
+
+  const handleDialogReturn = (newAnime) => {
+    if (newAnime.animeWeekDay === weekDay) {
+      setDayAnime([...dayAnime, newAnime]);
+    }
+  }
 
   useEffect(() => {
     // TODO: get real username from global state after login
@@ -16,19 +32,19 @@ function UserHome() {
     const browserWeekDay = new Date().toLocaleString('en-us', {  weekday: 'long' });
     setWeekday(browserWeekDay);
     
-    // TODO: get weekAnime from the backend instead of mock data
-    setWeekAnime(animeMockData);
+    // TODO: get dayAnime from the backend instead of mock data
+    setDayAnime(animeMockData);
   }, []);
 
   const handlePlusClick = (anime) => {
     // TODO: make API call to update the current episode in the backend
     const updateId = anime.id;
     const newCurrentEpisode = anime.currentEpisode + 1;
-    const updateAnimeList = (weekAnime.map(animeMap => {
+    const updateAnimeList = (dayAnime.map(animeMap => {
       return animeMap.id === updateId && newCurrentEpisode <= animeMap.totalEpisodes ? 
         { ...animeMap, currentEpisode: newCurrentEpisode }: animeMap
     }));
-    setWeekAnime(updateAnimeList);
+    setDayAnime(updateAnimeList);
   }
 
   return (
@@ -39,9 +55,16 @@ function UserHome() {
           <button
             type="submit" 
             className="green-button"
+            onClick={handleClickDialogOpen}
           >
             New Anime
           </button>
+
+          <NewAnimeModal 
+            open={dialogOpen} 
+            handleClose={handleDialogClose} 
+            returnFunction={handleDialogReturn}
+          />
 
           <button
             type="submit" 
@@ -64,7 +87,7 @@ function UserHome() {
             </div>
           </div>
 
-          {weekAnime.map(anime => (
+          {dayAnime.map(anime => (
             <div className="anime-container-line">
             <div className="anime-container-column">
               {anime.name}
