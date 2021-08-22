@@ -1,18 +1,9 @@
-.buttons-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 50%;
-    margin-bottom: 30px;
+.back-arrow-container {
+    margin-right: 90%;
 }
 
-.buttons-container button {
-    width: 45%;
-}
-
-.header {
-    font-weight: bold;
-    color: rgb(48, 48, 48);
+.back-arrow-container:hover {
+    cursor: pointer;
 }
 
 .anime-container {
@@ -23,16 +14,16 @@
     margin-top: 20px;
 }
 
-.anime-container-line {
+.anime-container-line-history {
     display: flex;
     flex-direction: row;
     align-items: center;
-    width: 70%;
+    width: 90%;
     color: rgb(88, 88, 88);
     min-height: 30px;
 }
 
-.anime-container-line:hover {
+.anime-container-line-history:hover {
     background-color: rgb(200, 200, 200);
 }
 
@@ -54,15 +45,5 @@
 }
 
 .plus-container:hover {
-    cursor: pointer;
-}
-
-#user-home p {
-    color: var(--primary-color);
-    margin-top: 40px;
-}
-
-#user-home p:hover {
-    text-decoration: underline;
     cursor: pointer;
 }

@@ -52,7 +52,7 @@ export default function NewAnimeModal({open, handleClose, returnFunction}) {
       <DialogContent>
         <DialogContentText>
           Add a new anime to your list. Please, insert a valid name, 
-          a number of episodes greater than zero and choose a release day of week.
+          a number of episodes greater than zero and choose a release day of the week.
         </DialogContentText>
         <TextField
           autoFocus
@@ -74,7 +74,7 @@ export default function NewAnimeModal({open, handleClose, returnFunction}) {
         />
 
         <div className="vspace20"></div>
-        <InputLabel htmlFor="age-native-simple">Release day of the week</InputLabel>
+        <InputLabel htmlFor="age-native-simple">Release day</InputLabel>
         <Select
           native
           onChange={handleWeekdayChange}

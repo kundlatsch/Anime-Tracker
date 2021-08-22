@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FiPlus } from 'react-icons/fi';
 import NewAnimeModal from './components/NewAnimeModal';
+import { useHistory } from 'react-router-dom';
 
 import './styles.css';
 import animeMockData from './animeMockData.json';
@@ -11,6 +12,8 @@ function UserHome() {
   const [weekDay, setWeekday] = useState("");
   const [dayAnime, setDayAnime] = useState([]);
   const [dialogOpen, setDialogOpen] = useState(false);
+
+  let history = useHistory();
 
   const handleClickDialogOpen = () => {
     setDialogOpen(true);
@@ -25,6 +28,10 @@ function UserHome() {
       setDayAnime([...dayAnime, newAnime]);
     }
   }
+
+  const navigateToHistory = () => {
+    history.push("/animeHistory");
+  };
 
   useEffect(() => {
     // TODO: get real username from global state after login
@@ -47,8 +54,13 @@ function UserHome() {
     setDayAnime(updateAnimeList);
   }
 
+  const handleLogout = () => {
+    // TODO: implement logout logic
+    history.push("/");
+  }
+
   return (
-    <div className="center-container">
+    <div className="center-container" id="user-home">
       <div className="default-container">
 
         <div className="buttons-container">
@@ -69,6 +81,7 @@ function UserHome() {
           <button
             type="submit" 
             className="green-button"
+            onClick={navigateToHistory}
           >
             Full List
           </button>
@@ -88,7 +101,7 @@ function UserHome() {
           </div>
 
           {dayAnime.map(anime => (
-            <div className="anime-container-line">
+            <div className="anime-container-line" key={anime.id}>
             <div className="anime-container-column">
               {anime.name}
             </div>
@@ -103,6 +116,10 @@ function UserHome() {
           ))}
           
         </div>
+
+        <p onClick={handleLogout}>
+          Logout
+        </p>
 
       </div>
     </div>
