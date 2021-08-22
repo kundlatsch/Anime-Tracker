@@ -33,7 +33,7 @@ export default function NewAnimeModal({open, handleClose, returnFunction}) {
 
   const addNewAnime = () => {
     // TODO: make API call to add the new anime
-    if (animeName.length > 0 && numberOfEpisodes > 0 && animeName != "") {
+    if (animeName.length > 0 && numberOfEpisodes > 0 && animeName !== "") {
       returnFunction({
         name: animeName,
         totalEpisodes: numberOfEpisodes,

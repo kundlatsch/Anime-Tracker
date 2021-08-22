@@ -24,7 +24,7 @@ function Login() {
         <h1>Login</h1>
         <input 
           type="text"
-          class="default-input"
+          className="default-input"
           id="login-input"
           placeholder="Username"
           onChange={(e) => {
@@ -33,7 +33,7 @@ function Login() {
         />
         <input 
           type="password"
-          class="default-input"
+          className="default-input"
           placeholder="Password"
           onChange={(e) => {
             setPassword(e.target.value);
@@ -41,7 +41,7 @@ function Login() {
         />
 
         <button
-          class="green-button"
+          className="green-button"
           id="login-button"
           onClick={handleLogin}
         >

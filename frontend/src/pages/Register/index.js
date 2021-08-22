@@ -18,9 +18,9 @@ const Register = () => {
     Username: Yup.string().required().min(4).max(50),
     Email: Yup.string().required().email(),
     Password: Yup.string().required().min(8),
-    RepeatPassword: Yup.string().
-      required('You need to confirm your password').
-      oneOf(
+    RepeatPassword: Yup.string()
+      .required('Please confirm your password')
+      .oneOf(
         [Yup.ref('Password'), null], 
         'Passwords must match'
       )
@@ -35,7 +35,7 @@ const Register = () => {
   };
 
   return (
-    <div className="center-container" id="login-page">
+    <div className="center-container" id="register-page">
       <div className="default-container">
         <h1>Create a new account</h1>
         <Formik

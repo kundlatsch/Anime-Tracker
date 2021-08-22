@@ -31,3 +31,17 @@
     margin-top: 30px;
     width: 25%;
 }
+
+@media (max-width: 500px) {
+    #register-page {
+        text-align: center;
+    }
+
+    .register-input {
+        width: 80%;
+    }
+
+    #register-button {
+        width: 70%;
+    }
+}

@@ -32,7 +32,7 @@ function FullAnimeList() {
 
   return (
     <div className="center-container">
-      <div className="default-container">
+      <div className="default-container" id="anime-history">
         <div className="back-arrow-container" onClick={goToPreviousPage}>
           <FiArrowLeft size="1.5em"/>
         </div>

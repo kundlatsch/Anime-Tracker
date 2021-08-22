@@ -47,3 +47,18 @@
 .plus-container:hover {
     cursor: pointer;
 }
+
+@media (max-width: 500px) {
+    #anime-history {
+        width: 95%;
+        padding-bottom: 20px;
+    }
+
+    .anime-container-line-history {
+        width: 100%;
+        margin-top: 2.5px;
+        margin-bottom: 2.5px;
+        border-bottom: 1px solid rgb(197, 197, 197);
+        border-width: 90%;
+    }
+}

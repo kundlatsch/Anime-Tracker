@@ -66,3 +66,17 @@
     text-decoration: underline;
     cursor: pointer;
 }
+
+@media (max-width: 500px) {
+    #user-home {
+        text-align: center;
+    }
+
+    .buttons-container {
+        width: 90%;
+    }
+
+    .anime-container-line {
+        width: 90%;
+    }
+}

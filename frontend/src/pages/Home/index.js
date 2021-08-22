@@ -21,7 +21,7 @@ const Home = () => {
     <div className="home-page">
       <div className="left-container">
 
-        <img id="logo" src={logo} alt="Logo" />
+        <img id="logo" src={logo} alt="Anime Tracker" />
 
         <h1>Keep track of your anime</h1>
         <h1>anywhere, anytime</h1>
@@ -38,7 +38,7 @@ const Home = () => {
       </div>
 
       <div className="right-container">
-        <img id="nen" src={nen} alt="Nen image" />
+        <img id="nen" src={nen} alt="Nen" />
       </div>
     </div>
    
