@@ -15,6 +15,11 @@ function Login() {
   }
 
   const handleLogin = () => {
+    // The login validation was desable to facilitate the app
+    // navigation while de backend is not implemented.
+    // if (username.length() > 0 && password.length() > 0) {
+    //   // TODO: integrate with backend
+    // }
     history.push("/userHome");
   };
 
