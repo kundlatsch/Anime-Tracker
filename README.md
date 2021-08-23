@@ -17,7 +17,7 @@ git clone https://github.com/kundlatsch/INE5646.git
 cd INE5646
 cd frontend
 npm install
-npm run
+npm start
 ```
 
 O projeto ficará disponível na porta 3000. Na tela inicial é possível navegar para as telas de Login e Registro. Ao clicar para fazer login (ou se registrar após preencher os dados corretamente), é possível acessar a tela principal do usuário. Nessa tela os botões de adicionar novo anime e vizualisar listagem completa de animes são funcionais. Todas as validações do frontend já foram implementadas, faltando apenas realizar a integração com o backend.
