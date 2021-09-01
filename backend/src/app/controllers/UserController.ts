@@ -4,6 +4,10 @@ import User from '../models/User';
 
 class UserController {
 
+  index(req: Request, res: Response) {
+    return res.send({ userId: req.userId });
+  }
+
   async store(req: Request, res: Response) {
     const repository = getRepository(User);
     const { name, email, password } = req.body;
