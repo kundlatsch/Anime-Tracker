@@ -125,9 +125,7 @@ class AnimeController {
 
     return res.sendStatus(200);
   }
-
-
-
+  
 }
 
 export default new AnimeController();
