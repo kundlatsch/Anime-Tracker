@@ -9,11 +9,15 @@ class AnimeController {
     const { anime, totalEpisodes, releaseDay } = req.body;
     const userId = req.userId;
 
-    const newAnime = repository.create({
+    const animeObj = {
       anime,
       totalEpisodes,
       currentEpisode: 0,
       releaseDay,
+    }
+
+    const newAnime = repository.create({
+      ...animeObj,
       userId
     });
     
@@ -21,7 +25,11 @@ class AnimeController {
       console.log(err);
       return res.sendStatus(400);
     });
-    return res.sendStatus(201);
+
+    return res.json({
+      ...animeObj,
+      id: newAnime.id
+    });
   }
 
   async getAllAnimes(req: Request, res: Response) {
@@ -32,6 +40,10 @@ class AnimeController {
       where: { userId }
     });
     
+    if (animes.length === 0) {
+      return res.sendStatus(204);
+    }
+
     const returnAnimes = animes.map(anime => {
       return {
         id: anime.id,
@@ -53,6 +65,10 @@ class AnimeController {
     const animes = await repository.find({
       where: { userId, releaseDay }
     });
+
+    if (animes.length === 0) {
+      return res.sendStatus(204);
+    }
     
     const returnAnimes = animes.map(anime => {
       return {
