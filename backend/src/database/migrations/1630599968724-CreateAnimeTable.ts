@@ -29,6 +29,10 @@ export class CreateAnimeTable1630599968724 implements MigrationInterface {
           type: 'int',
         },
         {
+          name: 'releaseDay',
+          type: 'int',
+        },
+        {
           name: 'userId',
           type: 'uuid',
         },

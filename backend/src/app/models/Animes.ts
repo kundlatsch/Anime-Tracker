@@ -1,5 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import User from './User';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('Animes')
 class Anime {
@@ -14,6 +13,9 @@ class Anime {
 
   @Column()
   currentEpisode: number;
+
+  @Column()
+  releaseDay: number;
 
   @Column()
   userId: string;
