@@ -17,8 +17,11 @@ class AnimeController {
       userId
     });
     
-    await repository.save(newAnime).catch(err => console.log(err));
-    return res.json(newAnime);
+    await repository.save(newAnime).catch(err => {
+      console.log(err);
+      return res.sendStatus(400);
+    });
+    return res.sendStatus(201);
   }
 
   async getAllAnimes(req: Request, res: Response) {
@@ -62,6 +65,52 @@ class AnimeController {
 
     return res.json(returnAnimes);
   }
+
+  async watchEpisode(req: Request, res: Response) {
+    const repository = getRepository(Anime);
+    const id = req.params.id;
+    const userId = req.userId;
+
+    const anime = await repository.findOne({
+      where: { userId, id }
+    });
+
+    if (!anime) {
+      return res.sendStatus(400);
+    }
+
+    if (anime.totalEpisodes <= anime.currentEpisode + 1) {
+      return res.sendStatus(403);
+    }
+
+    const updatedAnime = {
+      ...anime,
+      currentEpisode: anime.currentEpisode + 1
+    };
+    
+    await repository.save(updatedAnime);
+
+    return res.json(updatedAnime);
+  }
+
+  async deleteAnime(req: Request, res: Response) {
+    const repository = getRepository(Anime);
+    const id = req.params.id;
+    const userId = req.userId;
+    
+    const { affected } = await repository.delete({
+      id,
+      userId,
+    });
+
+    if (affected === 0) {
+      return res.sendStatus(400);
+    }
+
+    return res.sendStatus(200);
+  }
+
+
 
 }
 
