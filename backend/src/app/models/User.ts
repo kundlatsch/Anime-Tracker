@@ -1,5 +1,7 @@
-import { BeforeInsert, BeforeUpdate, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BeforeInsert, BeforeUpdate, Column, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import bcrypt from 'bcryptjs';
+
+import Anime from './Animes';
 
 @Entity('Users')
 class User {
@@ -14,6 +16,9 @@ class User {
 
   @Column()
   password: string;
+
+  // @OneToMany(() => Anime, anime => anime.userId)
+  // animes: Anime[];
 
   @BeforeInsert()
   @BeforeUpdate()
