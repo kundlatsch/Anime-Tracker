@@ -3,7 +3,6 @@ import { FiArrowLeft, FiPlus, FiTrash2 } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
 
 import './styles.css';
-import animeMockData from './animeMockData.json';
 import { Context } from '../../context/AuthContext';
 import atAPI from '../../services/atAPI';
 import weekday from './daymap';
