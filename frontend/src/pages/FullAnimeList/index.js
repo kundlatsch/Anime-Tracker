@@ -36,10 +36,14 @@ function FullAnimeList() {
     history.goBack();
   }
 
-  const handlePlusClick = (anime) => {
-    // TODO: make API call to update the current episode in the backend
+  const handlePlusClick = async (anime) => {
     const updateId = anime.id;
     const newCurrentEpisode = anime.currentEpisode + 1;
+    
+    if (anime.currentEpisode <= anime.totalEpisodes) {
+      await atAPI.put(`animes/watch/${anime.id}`);
+    }
+
     const newAnimeList = (animeList.map(animeMap => {
       return animeMap.id === updateId && newCurrentEpisode <= animeMap.totalEpisodes ? 
         { ...animeMap, currentEpisode: newCurrentEpisode }: animeMap
