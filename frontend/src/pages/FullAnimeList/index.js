@@ -1,18 +1,36 @@
-import React, {useEffect, useState} from 'react';
-import { FiArrowLeft, FiPlus } from 'react-icons/fi';
+import React, { useEffect, useState, useContext } from 'react';
+import { FiArrowLeft, FiPlus, FiTrash2 } from 'react-icons/fi';
 import { useHistory } from 'react-router-dom';
 
 import './styles.css';
 import animeMockData from './animeMockData.json';
+import { Context } from '../../context/AuthContext';
+import atAPI from '../../services/atAPI';
+import weekday from './daymap';
 
 function FullAnimeList() {
 
   const [animeList, setAnimeList] = useState([]);
   let history = useHistory();
+  const { authenticated, handleLogout } = useContext(Context);
 
   useEffect(() => {
+    if (!authenticated) {
+      history.push("/login");
+    }
     // TODO: get dayAnime from the backend instead of mock data
-    setAnimeList(animeMockData);
+    
+    atAPI.get(`/animes`).then(res => {
+      const { data } = res;
+      if (data) {
+        setAnimeList(data);
+      } else {
+        setAnimeList([]);
+      }
+    });
+    
+    
+    // setAnimeList(animeMockData);
   }, []);
 
   const goToPreviousPage = () => {
@@ -27,6 +45,14 @@ function FullAnimeList() {
       return animeMap.id === updateId && newCurrentEpisode <= animeMap.totalEpisodes ? 
         { ...animeMap, currentEpisode: newCurrentEpisode }: animeMap
     }));
+    setAnimeList(newAnimeList);
+  }
+
+  const handleDelClick = (anime) => {
+    atAPI.delete(`/animes/${anime.id}`);
+    const newAnimeList = animeList.filter((animeFilt) => {
+      return animeFilt.id != anime.id;
+    })
     setAnimeList(newAnimeList);
   }
 
@@ -51,22 +77,31 @@ function FullAnimeList() {
             <div className="anime-container-column header">
               Episodes
             </div>
+
+            <div className="anime-container-column header" id="del">
+              
+            </div>
           </div>
 
           {animeList.map(anime => (
             <div className="anime-container-line-history" key={anime.id}>
             <div className="anime-container-column">
-              {anime.name}
+              {anime.anime}
             </div>
 
             <div className="anime-container-column">
-              {anime.weekDay}
+              {weekday[anime.releaseDay]}
             </div>
 
             <div className="anime-container-column">
               {anime.currentEpisode}/{anime.totalEpisodes}
               <div className="plus-container" onClick={() => {handlePlusClick(anime)}}>
                 <FiPlus />
+              </div>
+            </div>
+            <div className="anime-container-column" id="del">
+              <div className="del-container" onClick={() => {handleDelClick(anime)}}>
+                <FiTrash2 color="#e35b5b" />
               </div>
             </div>
           </div>

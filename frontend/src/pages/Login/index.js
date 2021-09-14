@@ -1,26 +1,52 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { useHistory } from 'react-router-dom';
+import validator from 'validator';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+
+import { Context } from '../../context/AuthContext';
 
 import './styles.css';
 
 function Login() {
 
   let history = useHistory();
+  const { authenticated, handleLogin } = useContext(Context);
+  const MySwal = withReactContent(Swal);
 
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   function handleRegisterClick() {
     history.push("/register");
   }
 
-  const handleLogin = () => {
-    // The login validation was desable to facilitate the app
-    // navigation while de backend is not implemented.
-    // if (username.length() > 0 && password.length() > 0) {
-    //   // TODO: integrate with backend
-    // }
-    history.push("/userHome");
+  const handleLoginClick = () => {
+    if (!validator.isEmail(email)) {
+      MySwal.fire({
+        icon: 'error',
+        title: 'Something went wrong...',
+        text: 'Please enter a valid email!',
+      });
+    } else if (!password) {
+      MySwal.fire({
+        icon: 'error',
+        title: 'Something went wrong...',
+        text: 'Password is a required field!',
+      });
+    } else {
+      handleLogin(email, password).then((data) => {
+        if (!data) {
+          MySwal.fire({
+            icon: 'error',
+            title: 'Something went wrong...',
+            text: 'Login failed, please verify your email and password values!',
+          });
+        } else {
+          history.push('/userHome');
+        }
+      });
+    }
   };
 
   return (
@@ -28,12 +54,12 @@ function Login() {
       <div className="default-container">
         <h1>Login</h1>
         <input 
-          type="text"
+          type="email"
           className="default-input"
           id="login-input"
-          placeholder="Username"
+          placeholder="E-mail"
           onChange={(e) => {
-            setUsername(e.target.value);
+            setEmail(e.target.value);
           }}
         />
         <input 
@@ -48,7 +74,7 @@ function Login() {
         <button
           className="green-button"
           id="login-button"
-          onClick={handleLogin}
+          onClick={handleLoginClick}
         >
           Login
         </button>

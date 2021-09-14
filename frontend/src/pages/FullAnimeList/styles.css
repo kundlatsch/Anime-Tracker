@@ -48,10 +48,31 @@
     cursor: pointer;
 }
 
+#del {
+    width: 4%;
+}
+
+.del-container {
+    display: none;
+    
+}
+
+.del-container:hover {
+    cursor: pointer;
+}
+
+.anime-container-line-history:hover > .anime-container-column > .del-container {
+    display: block;
+}
+
 @media (max-width: 500px) {
     #anime-history {
         width: 95%;
         padding-bottom: 20px;
+    }
+
+    .del-container {
+        display: block;
     }
 
     .anime-container-line-history {

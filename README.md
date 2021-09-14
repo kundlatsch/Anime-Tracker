@@ -2,6 +2,12 @@
 
 Este repositório contém o código do projeto Anime tracker, desenvolvido para a disciplina de Programação Web da UFSC.
 
+## Backend
+
+docker run --name postgres-db -e POSTGRES_PASSWORD=docker -p 5432:5432 -d postgres
+docker exec postgres-db createdb -U postgres anime
+yarn typeorm migration:run
+
 ## Frontend
 
 O frontend da aplicação foi desenvolvido com React.js, em conjunto com algumas bibliotecas como `react-router-dom` para o roteamento das páginas, `matherial-ui` para o componente de modal utilizado ao adicionar um anime novo, `formik` para validação de formulários e `react-icons` para utilizar ícones dentro da aplicação.

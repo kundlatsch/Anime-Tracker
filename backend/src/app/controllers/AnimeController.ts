@@ -95,7 +95,7 @@ class AnimeController {
       return res.sendStatus(400);
     }
 
-    if (anime.totalEpisodes <= anime.currentEpisode + 1) {
+    if (anime.totalEpisodes < anime.currentEpisode + 1) {
       return res.sendStatus(403);
     }
 

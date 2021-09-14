@@ -2,16 +2,21 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 
 import './styles.css';
+import atAPI from '../../services/atAPI';
 
 const Register = () => {
 
   let history = useHistory();
+  const MySwal = withReactContent(Swal);
 
   const initialValues = {
-    username: "",
-    password: "",
+    Email: "",
+    Username: "",
+    Password: "",
   }
 
   const validationSchema = Yup.object().shape({
@@ -30,8 +35,25 @@ const Register = () => {
     history.push("/login");
   }
 
-  const handleRegister = () => {
-    history.push("/userHome");
+  const handleRegister = (data) => {
+    atAPI.post('/users', {
+      email: data.Email,
+      name: data.Username,
+      password: data.Password,
+    }).then(res => {
+      MySwal.fire({
+        icon: 'success',
+        title: 'Successs!',
+        text: 'You can now login with your new account',
+      });
+      history.push("/login");
+    }).catch(err => {
+      MySwal.fire({
+        icon: 'error',
+        title: 'Something went wrong...',
+        text: 'This user already exists, please use another email!',
+      });
+    });
   };
 
   return (

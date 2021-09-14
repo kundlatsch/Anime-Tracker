@@ -9,6 +9,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 
+import atAPI from '../../../../services/atAPI';
+
 
 export default function NewAnimeModal({open, handleClose, returnFunction}) {
 
@@ -31,15 +33,20 @@ export default function NewAnimeModal({open, handleClose, returnFunction}) {
     setAnimeWeekDay(weekDay);
   };
 
-  const addNewAnime = () => {
-    // TODO: make API call to add the new anime
+  const addNewAnime = async () => {
+    const { data } = await atAPI.post(`/animes`, {
+      anime: animeName,
+      totalEpisodes: numberOfEpisodes,
+      releaseDay: animeWeekDay,
+    });
+    const newAnime = data;
     if (animeName.length > 0 && numberOfEpisodes > 0 && animeName !== "") {
       returnFunction({
-        name: animeName,
-        totalEpisodes: numberOfEpisodes,
-        currentEpisode: 0,
-        animeWeekDay,
-        id: -1
+        anime: newAnime.anime,
+        totalEpisodes: newAnime.totalEpisodes,
+        currentEpisode: newAnime.currentEpisode,
+        animeWeekDay: newAnime.releaseDay,
+        id: newAnime.id,
       });
       handleClose();
     }
@@ -80,13 +87,13 @@ export default function NewAnimeModal({open, handleClose, returnFunction}) {
           onChange={handleWeekdayChange}
         >
           <option aria-label="None" value="" />
-          <option>Sunday</option>
-          <option>Monday</option>
-          <option>Tuesday</option>
-          <option>Wednesday</option>
-          <option>Thursday</option>
-          <option>Friday</option>
-          <option>Saturday</option>
+          <option value={0}>Sunday</option>
+          <option value={1}>Monday</option>
+          <option value={2}>Tuesday</option>
+          <option value={3}>Wednesday</option>
+          <option value={4}>Thursday</option>
+          <option value={5}>Friday</option>
+          <option value={6}>Saturday</option>
         </Select>
 
       </DialogContent>

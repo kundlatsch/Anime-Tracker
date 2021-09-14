@@ -1,15 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { FiPlus } from 'react-icons/fi';
 import NewAnimeModal from './components/NewAnimeModal';
 import { useHistory } from 'react-router-dom';
 
 import './styles.css';
-import animeMockData from './animeMockData.json';
+import { Context } from '../../context/AuthContext';
+import atAPI from '../../services/atAPI';
+
 
 function UserHome() {
 
+  const { authenticated, globalUsername, handleLogout } = useContext(Context);
+
   const [username, setUsername] = useState("");
   const [weekDay, setWeekday] = useState("");
+  const [weekDayNumber, setWeekdayNumber] = useState();
   const [dayAnime, setDayAnime] = useState([]);
   const [dialogOpen, setDialogOpen] = useState(false);
 
@@ -24,7 +29,7 @@ function UserHome() {
   };
 
   const handleDialogReturn = (newAnime) => {
-    if (newAnime.animeWeekDay === weekDay) {
+    if (newAnime.animeWeekDay == weekDayNumber) {
       setDayAnime([...dayAnime, newAnime]);
     }
   }
@@ -33,20 +38,36 @@ function UserHome() {
     history.push("/animeHistory");
   };
 
+  const getAnimeData = async () => {
+    const browserWeekDayNumber = new Date().getDay();
+    setWeekdayNumber(browserWeekDayNumber);
+    const { data } = await atAPI.get(`/animes/${browserWeekDayNumber}`);
+    if (!data) {
+      return [];
+    }
+    return data;
+  }
+
   useEffect(() => {
-    // TODO: get real username from global state after login
-    setUsername("Gustavo");
+    if (!authenticated) {
+      history.push("/login");
+    }
+    setUsername(globalUsername);
     const browserWeekDay = new Date().toLocaleString('en-us', {  weekday: 'long' });
     setWeekday(browserWeekDay);
     
-    // TODO: get dayAnime from the backend instead of mock data
-    setDayAnime(animeMockData);
+    getAnimeData().then(data => setDayAnime(data));
+    
   }, []);
 
-  const handlePlusClick = (anime) => {
-    // TODO: make API call to update the current episode in the backend
+  const handlePlusClick = async (anime) => {
     const updateId = anime.id;
     const newCurrentEpisode = anime.currentEpisode + 1;
+
+    if (anime.currentEpisode <= anime.totalEpisodes) {
+      await atAPI.put(`animes/watch/${anime.id}`);
+    }
+
     const updateAnimeList = (dayAnime.map(animeMap => {
       return animeMap.id === updateId && newCurrentEpisode <= animeMap.totalEpisodes ? 
         { ...animeMap, currentEpisode: newCurrentEpisode }: animeMap
@@ -54,8 +75,8 @@ function UserHome() {
     setDayAnime(updateAnimeList);
   }
 
-  const handleLogout = () => {
-    // TODO: implement logout logic
+  const handleLogoutClick = () => {
+    handleLogout();
     history.push("/");
   }
 
@@ -103,7 +124,7 @@ function UserHome() {
           {dayAnime.map(anime => (
             <div className="anime-container-line" key={anime.id}>
             <div className="anime-container-column">
-              {anime.name}
+              {anime.anime}
             </div>
 
             <div className="anime-container-column">
@@ -117,7 +138,7 @@ function UserHome() {
           
         </div>
 
-        <p onClick={handleLogout}>
+        <p onClick={handleLogoutClick}>
           Logout
         </p>
 
