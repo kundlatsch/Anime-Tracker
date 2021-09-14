@@ -25,7 +25,7 @@ npm start
 # instalar as dependencias do frontend e rodar o servidor
 cd ../frontend
 npm install
-npm run
+npm start
 ```
 
 O projeto estará disponível em `http://localhost:3000/`.
